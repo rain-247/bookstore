@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>people</title>
+    <link rel="stylesheet" href="index.styles.css">
+    <style>
+        #nicknameLink {
+            text-decoration: none;
+            font-size: 18px;
+        }
+
+        #infoForm {
+            max-width: 400px; 
+            margin: 0 auto; 
+            margin-top: 80px;
+        }
+
+
+        label {
+            display: block; 
+            margin-bottom: 10px; 
+        }
+
+
+        .anser {
+            width: 100%;
+            padding: 8px; 
+            box-sizing: border-box; 
+            margin-bottom: 10px; 
+        }
+
+
+        button {
+            padding: 10px 20px; 
+            background-color: #4CAF50; 
+            color: white; 
+            border: none; 
+            cursor: pointer; 
+        }
+
+        button:hover {
+            background-color: #45a049; 
+        }
+
+        
+
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img width="100%" height="100%" src="img/logo.png" alt="Online Bookstore Logo">
+        </div>
+        <div class="nav-menu">
+            <div class="nav-item"><a href="index.html">首頁</a></div>
+            <div class="nav-item"><a href="all.html">大全</a></div>
+            <div class="nav-item"><a href="favorite.html">收藏</a></div>
+            <div class="nav-item"><a href="cart.html">購物車</a></div>
+            <div class="nav-item" id="loginRegisterLink">
+                <a href="signin.html">登入/註冊</a>
+                <div id="logoutDropdown" class="dropdown-menu">
+                    <div class="out" id="logoutOption"><a href="#">登出</a></div>
+                </div>
+            </div>
+            <div class="nav-item" id="lotteryLink"><a href="people.html">問卷</a></div> 
+            <div class="nav-item" id="nicknameLink"></div> 
+            <div class="nav-item">
+                <input type="text" id="searchInput" placeholder="搜索">
+                <button id="searchButton">搜索</button>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <form id="infoForm">
+            <label for="nickname">暱稱：</label>
+            <input class="anser" type="text" id="nickname" name="nickname" required><br><br> 
+
+            <label for="address">地址：</label>
+            <input class="anser" type="text" id="address" name="address"><br><br>
+
+            <label for="favoriteGenre">喜歡的書類型：</label>
+            <input class="anser" type="text" id="favoriteGenre" name="favoriteGenre"><br><br>
+
+            <label for="readingTime">一週花多少時間在閱讀：</label>
+            <input class="anser" type="text" id="readingTime" name="readingTime"><br><br>
+
+            <label for="libraryFrequency">去圖書館的頻率：</label>
+            <input class="anser" type="text" id="libraryFrequency" name="libraryFrequency"><br><br>
+
+            <label for="readingMaterial">閱讀的載體是甚麼：</label>
+            <input class="anser" type="text" id="readingMaterial" name="readingMaterial"><br><br>
+
+            <button type="button" id="resetButton">重填</button>
+            <button type="submit" id="submitButton">送出</button>
+        </form>
+    </main>
+
+    <footer>
+        <p>聯絡資訊: contact@example.com</p>
+    </footer>
+
+    <script src="scripts.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const infoForm = document.getElementById("infoForm");
+            const nicknameLink = document.getElementById("nicknameLink");
+            const lotteryLink = document.getElementById("lotteryLink");
+
+            infoForm.addEventListener("submit", function(event) {
+                event.preventDefault();
+                const nickname = document.getElementById("nickname").value;
+
+                nicknameLink.innerHTML = nickname;
+
+                lotteryLink.remove();
+
+                alert("謝謝您的填寫");
+
+                infoForm.reset();
+            });
+
+            const resetButton = document.getElementById("resetButton");
+            resetButton.addEventListener("click", function() {
+                infoForm.reset();
+            });
+        });
+    </script>
+</body>
+</html>
+
+
+

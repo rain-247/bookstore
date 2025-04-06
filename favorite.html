@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我的收藏</title>
+    <link rel="stylesheet" href="index.styles.css">
+    <style>
+        .favoritebook {
+            display: flex;
+            align-items: center;
+            margin: 50px;
+            width: 800px; 
+        }
+
+        .favoritebook img {
+            width: 240px; 
+            height: auto;
+            margin-right: 20px;
+            cursor: pointer; 
+            transition: transform 0.3s ease;
+        }
+
+        .favoritebook .book-info {
+            flex: 1; 
+            margin-left: 100px;
+        }
+
+        .favoritebook .title {
+            font-size: 38px;
+            font-weight: bold;
+            margin-bottom: 5px;
+            cursor: pointer; 
+        }
+
+        .favoritebook .author {
+            font-size: 22px;
+            color: #666;
+            cursor: pointer; 
+            margin-top: 20px;
+        }
+
+        .noResults {
+            text-align: center;
+            margin-top: 50px;
+            font-size: 20px;
+        }
+
+        .favoritebook .title:hover,
+        .favoritebook .author:hover {
+            color: #007bff;
+        }
+
+        .favoritebook img:hover {
+            transform: scale(1.1);
+        }
+
+        .favoritebook .removeFromFavoritesButton {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-top: 20px;
+        }
+
+        .favoritebook .removeFromFavoritesButton:hover {
+            background-color: #c82333;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img width="100%" height="100%" src="img/logo.png" alt="Online Bookstore Logo">
+        </div>
+        <div class="nav-menu">
+            <div class="nav-item"><a href="index.html">首頁</a></div>
+            <div class="nav-item"><a href="all.html">大全</a></div>
+            <div class="nav-item"><a href="favorite.html">收藏</a></div>
+            <div class="nav-item"><a href="cart.html">購物車</a></div>
+            <div class="nav-item" id="loginRegisterLink">
+                <a href="signin.html">登入/註冊</a>
+                <div id="logoutDropdown" class="dropdown-menu">
+                    <div class="out" id="logoutOption"><a href="#">登出</a></div>
+                </div>
+            </div>
+            <div class="nav-item" id="lotteryLink"><a href="people.html">問卷</a></div> 
+            <div class="nav-item" id="nicknameLink"></div> 
+            <div class="nav-item">
+                <input type="text" id="searchInput" placeholder="搜索">
+                <button id="searchButton">搜索</button>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <h1>收藏書籍</h1>
+        <div id="favoriteBooks" class="book-container">
+        </div>
+    </main>
+
+    <footer>
+        <p>聯絡資訊: contact@example.com</p>
+    </footer>
+
+
+    <script src="scripts.js"></script>  
+    <script>
+const favoriteBooks = JSON.parse(localStorage.getItem('favoriteBooks')) || [];
+
+const favoriteBooksContainer = document.getElementById("favoriteBooks");
+function displayFavoriteBooks() {
+    favoriteBooksContainer.innerHTML = "";
+
+    if (favoriteBooks.length > 0) {
+        favoriteBooks.forEach(book => {
+            const bookElement = document.createElement("div");
+            bookElement.classList.add("favoritebook");
+            const imageElement = document.createElement("img");
+            imageElement.src = book.image;
+            imageElement.addEventListener("click", function() {
+                window.location.href = `book-details.html?id=${book.id}`;
+            });
+            bookElement.appendChild(imageElement);
+            const infoElement = document.createElement("div");
+            infoElement.classList.add("book-info");
+            const titleElement = document.createElement("div");
+            titleElement.classList.add("title");
+            titleElement.textContent = book.title;
+            titleElement.addEventListener("click", function() {
+                window.location.href = `book-details.html?id=${book.id}`;
+            });
+            infoElement.appendChild(titleElement);
+
+            const authorElement = document.createElement("div");
+            authorElement.classList.add("author");
+            authorElement.textContent = "作者：" + book.author;
+            authorElement.addEventListener("click", function() {
+                window.location.href = `book-details.html?id=${book.id}`;
+            });
+            infoElement.appendChild(authorElement);
+
+            const removeFromFavoritesButton = document.createElement("button");
+            removeFromFavoritesButton.classList.add("removeFromFavoritesButton");
+            removeFromFavoritesButton.dataset.bookId = book.id; 
+            removeFromFavoritesButton.innerHTML = '取消收藏';
+            removeFromFavoritesButton.addEventListener("click", function() {
+                const index = favoriteBooks.findIndex(favoriteBook => favoriteBook.id === book.id);
+                if (index !== -1) {
+                    favoriteBooks.splice(index, 1);
+                    localStorage.setItem('favoriteBooks', JSON.stringify(favoriteBooks));
+                    displayFavoriteBooks();
+                    alert("書籍已取消收藏");
+                }
+            });
+
+            infoElement.appendChild(removeFromFavoritesButton);
+
+            bookElement.appendChild(infoElement);
+
+            favoriteBooksContainer.appendChild(bookElement);
+        });
+    } else {
+        const noResultsElement = document.createElement("div");
+        noResultsElement.classList.add("noResults");
+        noResultsElement.textContent = "您尚未收藏任何書籍。";
+        favoriteBooksContainer.appendChild(noResultsElement);
+    }
+}
+displayFavoriteBooks();
+
+    </script>
+</body>
+</html>
+

@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>購物車</title>
+    <link rel="stylesheet" href="index.styles.css">
+    <style>
+        .cart-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px; 
+        }
+
+        .cart-item {
+            display: flex;
+            gap: 20px; 
+            padding: 10px; 
+            border: 1px solid #ccc; 
+        }
+        
+        .book-cover {
+            width: 100px; 
+            height: 150px; 
+            cursor: pointer; 
+        }
+        
+        .book-details {
+            flex-grow: 1; 
+            display: flex;
+            flex-direction: column;
+            justify-content: center; 
+        }
+        
+        .book-title {
+            font-weight: bold; 
+            margin: 0; 
+            cursor: pointer; 
+        }
+        
+        .book-author {
+            margin: 0; 
+            cursor: pointer; 
+        }
+        
+        .quantity {
+            display: flex;
+            align-items: center; 
+        }
+
+        .quantity input {
+            width: 40px; 
+        }
+
+        .quantity-info, .price-info {
+            display: flex;
+            align-items: center; 
+        }
+
+        .quantity-input {
+            width: 40px;
+        }
+
+        .price-info p {
+            margin: 0; 
+        }
+
+        .total-price {
+            margin-top: 20px; 
+            font-size: 1.2em;
+            background-color: #f5f5f5;
+            padding: 10px 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: end;
+        }
+
+        .cancel-button {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            font-size: 1em;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .cancel-button:hover {
+            background-color: #c82333;
+        }
+
+        #purchase {
+            display: none;
+            width: 80px;
+            height: 30px;
+            font-size: 24px;
+            line-height: 30px;
+            border-radius: 5px;
+            border: 1px solid rgb(34, 30, 30);
+            float: right;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img width="100%" height="100%" src="img/logo.png" alt="Online Bookstore Logo">
+        </div>
+        <div class="nav-menu">
+            <div class="nav-item"><a href="index.html">首頁</a></div>
+            <div class="nav-item"><a href="all.html">大全</a></div>
+            <div class="nav-item"><a href="favorite.html">收藏</a></div>
+            <div class="nav-item"><a href="cart.html">購物車</a></div>
+            <div class="nav-item" id="loginRegisterLink">
+                <a href="signin.html">登入/註冊</a>
+                <div id="logoutDropdown" class="dropdown-menu">
+                    <div class="out" id="logoutOption"><a href="#">登出</a></div>
+                </div>
+            </div>
+            <div class="nav-item" id="lotteryLink"><a href="people.html">問卷</a></div> 
+            <div class="nav-item" id="nicknameLink"></div> 
+            <div class="nav-item">
+                <input type="text" id="searchInput" placeholder="搜索">
+                <button id="searchButton">搜索</button>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div id="cartContainer" class="cart-container"></div>
+        <div id="totalPrice" class="total-price"></div>
+        <button id="purchase">訂購</button> 
+    </main>
+
+    <footer>
+        <p>聯絡資訊: contact@example.com</p>
+    </footer>
+
+    <script src="scripts.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            displayCartItems();
+        });
+
+        function displayCartItems() {
+            const cartBooks = JSON.parse(localStorage.getItem('cartBooks')) || [];
+            const cartContainer = document.getElementById("cartContainer");
+            cartContainer.innerHTML = "";
+
+            if (cartBooks.length === 0) {
+                const emptyCartMessage = document.createElement("div");
+                emptyCartMessage.textContent = "購物車是空的";
+                cartContainer.appendChild(emptyCartMessage);
+                clearTotalPrice(); 
+            } else {
+                let totalPrice = 0; 
+
+                cartBooks.forEach(book => {
+                    const cartItem = document.createElement("div");
+                    cartItem.classList.add("cart-item");
+
+                    const bookCover = document.createElement("img");
+                    bookCover.src = book.image;
+                    bookCover.classList.add("book-cover");
+                    bookCover.addEventListener("click", function() {
+                        window.location.href = "book-details.html?id=" + book.id; 
+                    });
+                    cartItem.appendChild(bookCover);
+
+                    const bookDetails = document.createElement("div");
+                    bookDetails.classList.add("book-details");
+
+                    const title = document.createElement("h3");
+                    title.textContent = book.title;
+                    title.classList.add("book-title");
+                    title.addEventListener("click", function() {
+                        window.location.href = "book-details.html?id=" + book.id;
+                    });
+                    bookDetails.appendChild(title);
+
+                    const author = document.createElement("p");
+                    author.textContent = "作者：" + book.author;
+                    author.classList.add("book-author");
+                    author.addEventListener("click", function() {
+                        window.location.href = "book-details.html?id=" + book.id;
+                    });
+                    bookDetails.appendChild(author);
+
+                    cartItem.appendChild(bookDetails);
+
+                    const quantityDiv = document.createElement("div");
+                    quantityDiv.classList.add("quantity-info");
+
+                    const quantityLabel = document.createElement("label");
+                    quantityLabel.textContent = "數量：";
+                    quantityDiv.appendChild(quantityLabel);
+
+                    const quantityInput = document.createElement("input");
+                    quantityInput.type = "number";
+                    quantityInput.min = 1;
+                    quantityInput.value = book.quantity || 1;
+                    quantityInput.classList.add("quantity-input");
+                    quantityInput.addEventListener("change", function() {
+                        updateCartItemQuantity(book.id, parseInt(quantityInput.value));
+                    });
+                    quantityDiv.appendChild(quantityInput);
+
+                    cartItem.appendChild(quantityDiv);
+
+                    const priceDiv = document.createElement("div");
+                    priceDiv.classList.add("price-info");
+
+                    const priceLabel = document.createElement("p");
+                    priceLabel.textContent = "價格：" + (book.price * (book.quantity || 1)).toFixed(2) + " 元";
+                    priceDiv.appendChild(priceLabel);
+
+                    cartItem.appendChild(priceDiv);
+
+                    const cancelButton = document.createElement("button");
+                    cancelButton.textContent = "取消購買";
+                    cancelButton.classList.add("cancel-button");
+                    cancelButton.addEventListener("click", function() {
+                        cancelCartItem(book.id);
+                    });
+                    cartItem.appendChild(cancelButton);
+
+                    cartContainer.appendChild(cartItem);
+
+                    totalPrice += book.price * (book.quantity || 1);
+                });
+
+                const totalPriceElement = document.getElementById("totalPrice");
+                totalPriceElement.textContent = "總價：" + totalPrice.toFixed(2) + " 元";
+
+                const purchaseButton = document.getElementById("purchase");
+                purchaseButton.style.display = "block";
+            }
+        }
+
+        function updateCartItemQuantity(bookId, quantity) {
+            let cartBooks = JSON.parse(localStorage.getItem('cartBooks')) || [];
+            cartBooks = cartBooks.map(book => {
+                if (book.id === bookId) {
+                    book.quantity = quantity;
+                }
+                return book;
+            });
+            localStorage.setItem('cartBooks', JSON.stringify(cartBooks));
+            displayCartItems();
+        }
+
+        function cancelCartItem(bookId) {
+            let cartBooks = JSON.parse(localStorage.getItem('cartBooks')) || [];
+            cartBooks = cartBooks.filter(book => book.id !== bookId);
+            localStorage.setItem('cartBooks', JSON.stringify(cartBooks));
+            displayCartItems();
+        }
+
+        function clearTotalPrice() {
+            const totalPriceElement = document.getElementById("totalPrice");
+            totalPriceElement.textContent = "";
+
+            const purchaseButton = document.getElementById("purchase");
+            purchaseButton.style.display = "none";
+        }
+
+        const purchaseButton = document.getElementById("purchase");
+        purchaseButton.addEventListener("click", function() {
+            alert("感谢您的購買！");
+            localStorage.removeItem("cartBooks");
+            displayCartItems();
+        });
+    </script>
+</body>
+</html>
