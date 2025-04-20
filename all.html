@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Details</title>
+    <link rel="stylesheet" href="index.styles.css">
+    <style>
+        #book_all {
+            display: flex;
+            flex-wrap: wrap;
+            max-width: 100vw;
+            justify-content: space-around;
+        }
+
+        #book_all img{
+            width: 17vw;
+            height: auto;
+            margin-top: 30px;
+        }
+
+        #book_all .title{
+            font-size: 16px;
+            font-weight: bolder;
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        #book_all .author{
+            font-size: 14px;
+            text-align: center;
+            margin-top: 5px;
+        }
+
+
+
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img width="100%" height="100%" src="img/logo.png" alt="Online Bookstore Logo">
+        </div>
+        <div class="nav-menu">
+            <div class="nav-item"><a href="index.html">首頁</a></div>
+            <div class="nav-item"><a href="all.html">大全</a></div>
+            <div class="nav-item"><a href="favorite.html">收藏</a></div>
+            <div class="nav-item"><a href="cart.html">購物車</a></div>
+            <div class="nav-item" id="loginRegisterLink">
+                <a href="signin.html">登入/註冊</a>
+                <div id="logoutDropdown" class="dropdown-menu">
+                    <div class="out" id="logoutOption"><a href="#">登出</a></div>
+                </div>
+            </div>
+            <div class="nav-item" id="lotteryLink"><a href="people.html">問卷</a></div> 
+            <div class="nav-item" id="nicknameLink"></div> 
+            <div class="nav-item">
+                <input type="text" id="searchInput" placeholder="搜索">
+                <button id="searchButton">搜索</button>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div id="book_all">
+
+        </div>
+    </main>
+
+    <footer>
+        <p>聯絡資訊: contact@example.com</p>
+    </footer>
+
+    <script src="scripts.js"></script>
+</body>
+</html>

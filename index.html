@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Bookstore</title>
+    <link rel="stylesheet" href="index.styles.css">
+    <style>
+        .book-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+        }
+
+        .indexbook {
+            text-align: center;
+            margin: 20px;
+            width: 200px;
+        }
+
+        .indexbook img {
+            width: 250px;
+            height: auto;
+            transition: transform 0.3s ease;
+        }
+
+        .indexbook:hover img {
+            transform: scale(1.1); 
+        }
+
+        .indexbook .book-info .title {
+            width: 250px;
+            text-align: center;
+            font-size: 20px;
+            font-weight: bold;
+            margin-top: 30px;
+        }
+
+        .indexbook .book-info .author {
+            font-size: 16px;
+            width: 250px;
+            text-align: center;
+        }
+
+        .featurebooks {
+            margin-left: 20px;
+        }
+
+        .recommended-books {
+            margin-top: 80px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img width="100%" height="100%" src="img/logo.png" alt="Online Bookstore Logo">
+        </div>
+        <div class="nav-menu">
+            <div class="nav-item"><a href="index.html">首頁</a></div>
+            <div class="nav-item"><a href="all.html">大全</a></div>
+            <div class="nav-item"><a href="favorite.html">收藏</a></div>
+            <div class="nav-item"><a href="cart.html">購物車</a></div>
+            <div class="nav-item" id="loginRegisterLink">
+                <a href="signin.html">登入/註冊</a>
+                <div id="logoutDropdown" class="dropdown-menu">
+                    <div class="out" id="logoutOption"><a href="#">登出</a></div>
+                </div>
+            </div>
+            <div class="nav-item" id="lotteryLink"><a href="people.html">問卷</a></div> 
+            <div class="nav-item" id="nicknameLink"></div> 
+            <div class="nav-item">
+                <input type="text" id="searchInput" placeholder="搜索">
+                <button id="searchButton">搜索</button>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="featured-books">
+            <h2 class="featurebooks">本週暢銷書</h2>
+            <div id="featuredBooks" class="book-container">
+            </div>
+        </section>
+    
+        <section class="recommended-books">
+            <h2 class="featurebooks">推薦書籍</h2>
+            <div id="recommendedBooks" class="book-container">
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>聯絡資訊: contact@example.com</p>
+    </footer>
+
+    <script src="scripts.js"></script>
+    <script>
+
+const indexbooks = [
+    { id: 1, title: "《櫻花飄落時》", author: "櫻井光", image: "./img/1.png", price: 20.00, description: "在繁華都市中的櫻花高等學園，17歲的內向少年藤原翔太遇見了轉學生夏目凛，一位熱愛攝影的開朗少女。兩人在校園活動中逐漸熟識並建立起深厚友誼。隨著時間推移，翔太對凛的感情超越了朋友，但他不知道如何表達。在校慶晚會上 翔太鼓起勇氣向凛告白 而凛也坦白了自己的感受 兩人在煙火下牽手 迎接未來的挑戰 這段青春歲月 充滿波折與考驗 但也讓他們找到了成長的力量和愛的真諦" },
+    { id: 2, title: "《幽林驚魂》", author: "森村黑", image: "./img/2.png", price: 25.00, description: "在遼闊而神秘的黑木森林中，流傳著許多關於失蹤與靈異的傳聞。18歲的高中生高橋翔和他的幾位朋友決定在暑假期間進行一次野營探險，希望揭開這片森林的秘密。當他們深入森林後，奇怪的事情接連發生：夜晚的低語、突然消失的同伴、詭異的足跡。翔和他的朋友們發現了一座廢棄的小屋，裡面堆滿了記錄著過去神秘事件的古老手稿。隨著探索的深入，他們逐漸揭示了這片森林背後的恐怖真相——多年前，這裡曾經發生過一系列離奇的失蹤事件，並且與一個神秘的儀式有關。面對未知的恐懼和無處不在的危險，翔和他的朋友們必須找到生還的途徑。他們試圖解開這片森林的詛咒，發現逃脫的方法。但隨著時間的推移，恐怖的力量越來越強大，生命危在旦夕。最終，翔和他的朋友們能否成功逃離這片詭異的森林，還是會成為它的下一個受害者？" },
+    { id: 3, title: "《銀河戰紀》", author: "星河明", image: "./img/3.png", price: 18.00, description: "在遙遠的未來，人類已經征服了銀河系的諸多星球，建立了繁榮的銀河聯邦。然而，和平的背後暗藏著危機。位於銀河系邊緣的神秘種族“薩爾卡斯人”突然發動了大規模的侵略戰爭，企圖征服整個銀河。銀河聯邦的旗艦“無畏號”被派往前線，率領聯邦艦隊迎戰薩爾卡斯人的強大攻勢。艦長雷克斯·卡爾森是一位經驗豐富的戰略家，但面對前所未有的敵人，他和他的船員們必須共同努力，克服重重困難。在激烈的戰鬥中，雷克斯與副艦長艾莉亞·史密斯、戰術專家湯姆·漢密爾頓以及機師蕾娜·張建立了深厚的友誼。他們發現薩爾卡斯人的入侵背後隱藏著一個更大的陰謀：一個被稱為“虛無之眼”的古老武器，能夠毀滅整個銀河系。為了拯救銀河，雷克斯和他的團隊必須深入敵後，找到並摧毀“虛無之眼”。在一場場生死攸關的戰役中，他們不僅要對抗薩爾卡斯人的強大戰力，還要面對內部的背叛和陰謀。最終，雷克斯帶領著他的隊伍，在銀河聯邦的支持下，展開了決戰，保衛了銀河的未來。" },
+    { id: 4, title: "《Happy Family Days》", author: "山田晴子", image: "./img/4.png", price: 30.00, description: "在東京市郊，有一個幸福而有些混亂的家庭——田中家。這個家庭由三位成員組成：總是忙碌的公司職員爸爸田中隆一，充滿創意且熱愛園藝的媽媽田中美香，調皮捣蛋的小學三年級生兒子田中翔太。每一天，田中家都充滿了笑聲和意外事件。從爸爸的廚房災難，到媽媽的園藝實驗，再到翔太的惡作劇和凜的青春煩惱，家庭成員們總是在最意想不到的時刻互相支持，共同面對生活中的挑戰。故事中，翔太總是策劃各種搞笑的惡作劇，讓全家哭笑不得；凜則在學校和家庭之間平衡著自己的青春期煩惱；田中夫婦則試圖在忙碌的工作和家庭生活中找到平衡。即使面對困難和誤會，田中家總能通過幽默和愛化解一切。" },
+    { id: 5, title: "《風華女俠》", author: "王劍秋", image: "./img/5.png", price: 22.00, description: "白雲裳，天山派掌門的獨生女，自幼聰明絕美且武功高強。她在外遊歷歸來時，發現師門遭到黑風幫滅門。悲憤的她發誓復仇，並揭開幕後黑手的真面目。在追尋真相的旅途中，白雲裳結識了冷酷刺客葉冰心、俏皮女俠楚雲霜和忠誠鐵匠之子張大山。他們與白雲裳並肩作戰，共同對抗江湖中的重重危機。白雲裳發現黑風幫幫主蕭無敵在尋找傳說中的寶劍“龍吟劍”，企圖統治江湖。白雲裳決心阻止蕭無敵，保護龍吟劍，避免江湖陷入更大的混亂。在最終的決戰中，白雲裳和她的夥伴們成功擊敗蕭無敵，奪回龍吟劍，並將其重新隱藏。白雲裳決定繼續行走江湖，守護和平，成為真正的“風華女俠”。" },
+    { id: 6, title: "《星光使者》", author: "鈴木葵", image: "./img/6.png", price: 28.00, description: "在未來的日式科技世界中，人們生活在科技與傳統文化交融的都市中。在這個世界裡，存在著一個神秘的組織，他們尋找擁有特殊能力的人，企圖掌控世界的命運。故事的主角是一位名叫美琴的年輕女子。在一次科技實驗事故中，美琴獲得了意想不到的超能力：她可以通過意念控制和操縱能源。然而，這些能力引起了神秘組織的注意，他們意圖利用美琴的能力來達成自己的陰謀。為了保護自己和家人，美琴踏上了一段驚險的冒險之旅。她結識了一群志同道合的夥伴，包括技術天才榮一、神祕的戰士優和機智的黑客薰。他們一起對抗著那些企圖利用超能力破壞世界平衡的敵人，並且揭示了背後的陰謀和秘密。在追查的過程中，美琴逐漸發現了自己超能力的來源，以及這些能力對世界的重要性。她必須面對自己內心的恐懼和挑戰，並且學會控制和運用自己的能力，成為真正的星光使者，守護世界的和平與安全。" },
+    { id: 7, title: "《影中之狼》", author: "岡田悠悠", image: "./img/7.png", price: 35.00, description: "在這個世界上，存在著一個神秘組織——影中之狼，他們是世界上最強大的諜報組織之一。他們的任務是保護世界和平，打擊各種威脅和敵人。故事的主角是一位代號為「影」的傳說級間諜。他的真實身份是個謎，沒有人知道他的過去和身世，只知道他是一個出色的間諜，擁有無比強大的技能和智慧。在一次次危機中，「影」展現了驚人的諜報技巧和戰鬥能力。他穿梭於世界各地，完成各種看似不可能完成的任務，為了守護世界和平，無所畏懼地面對敵人的挑戰。然而，世界上的黑暗勢力也在不斷滲透，「影」必須時刻保持警惕，防止各種陰謀和危險的發生。他的敵人包括各種國家的間諜組織、恐怖分子和犯罪集團，每一次任務都是一場生死較量。在追查真相的過程中，「影」也逐漸發現了更大的陰謀和秘密，他必須面對自己的過去，以及背後隱藏的真相。最終，他將和他的夥伴們一起，捍衛世界的和平，並揭示背後黑手的真面目。" },
+    { id: 8, title: "《末日烈焰：惡魔之戰》", author: "櫻木麗子", image: "./img/8.png", price: 24.00, description: "在一個被毀滅性災難所摧毀的世界中，人類社會已經崩潰，大地變成了一片焦土，充斥著死亡和絕望。這一切都是因為一群惡魔的出現，他們帶來了無盡的毀滅和混亂，將世界推向了末日的邊緣。在這場生死存亡的危機中，一支勇敢的人類軍團崛起了。他們來自各個角落，有著不同的背景和技能，但他們有著共同的信念：保護人類的生存，打敗惡魔的侵略。故事的主人公是一位年輕而勇敢的戰士，他的名字叫做艾倫。在他的領導下，人類軍團不斷與惡魔軍團展開激烈的戰鬥。他們穿梭於廢墟之間，拼盡全力，不惜犧牲，為了守護那一絲絲的希望和生存。在這場生死抉擇中，艾倫和他的夥伴們將面臨各種考驗和挑戰。他們必須克服內心的恐懼和絕望，團結一致，與惡魔展開最後的決戰，為了人類的未來，為了世界的和平。" },
+    { id: 9, title: "《星空探險：銀河之旅》", author: "李妍熙", image: "./img/9.png", price: 26.00, description: "在不久的未來，科技突飛猛進，人類已經能夠探索銀河系。主角林恩是一位天才航天工程師，她設計了一艘先進的星際飛船“銀河之光”。當人類首次發現可能存在外星生命的星系時，林恩受命帶領一支探險隊前往。在探索過程中，他們遭遇了各種未知的危險和神秘現象，並發現了外星文明的驚天秘密。最終，林恩和她的團隊不僅揭開了宇宙的真相，也在冒險中找到了一種全新的能源，拯救了地球。" },
+    { id: 10, title: "《霧之村的秘密》", author: "宮本花子", image: "./img/10.png", price: 32.00, description: "在日本一個被大霧籠罩的小村莊裡，年輕的記者澤成來到這裡調查一系列神秘失踪事件。隨著調查的深入他發現村莊裡隱藏著一個古老的秘密：每當大霧籠罩，村民們就會失踪。澤成結識了村中唯一的幸存者——一位年輕的神秘男子，他聲稱這一切都與一個被封印的邪靈有關。" },
+];
+
+function displayBooks(books, containerId) {
+    const container = document.getElementById(containerId);
+    container.innerHTML = "";
+    books.forEach(book => {
+        const bookElement = document.createElement("div");
+        bookElement.classList.add("indexbook");
+
+        const detailsLink = document.createElement("a");
+        detailsLink.href = `book-details.html?id=${book.id}`;
+        detailsLink.classList.add("details-link");
+
+        const imageElement = document.createElement("img");
+        imageElement.src = book.image;
+        detailsLink.appendChild(imageElement);
+
+        const infoElement = document.createElement("div");
+        infoElement.classList.add("book-info");
+
+        const titleLink = document.createElement("a");
+        titleLink.href = `book-details.html?id=${book.id}`;
+        titleLink.textContent = book.title;
+        titleLink.classList.add("title");
+        infoElement.appendChild(titleLink);
+
+        const authorLink = document.createElement("a");
+        authorLink.href = `book-details.html?id=${book.id}`;
+        authorLink.textContent = book.author;
+        authorLink.classList.add("author");
+        infoElement.appendChild(authorLink);
+
+        bookElement.appendChild(detailsLink);
+        bookElement.appendChild(infoElement);
+
+        container.appendChild(bookElement);
+    });
+
+    if (books.length === 0) {
+        const noResultsElement = document.createElement("div");
+        noResultsElement.classList.add("noResults");
+        noResultsElement.textContent = "沒有相關書籍";
+        container.appendChild(noResultsElement);
+    }
+}
+
+displayBooks(indexbooks.slice(0, 5), "featuredBooks");
+
+displayBooks(indexbooks.slice(5, 10), "recommendedBooks");
+
+    </script>
+</body>
+</html>
+
