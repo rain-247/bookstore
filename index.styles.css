@@ -15,6 +15,18 @@ header {
     padding: 0 20px;
 }
 
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+.book-container, .books, #bookDetails {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+}
+
 .logo img {
     width: 100px;
     height: 50px;
@@ -248,3 +260,39 @@ footer {
 .addToFavoritesButton img {
     width: 50px;
 }
+
+.indexbook {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 250px;
+    margin: 20px;
+    text-align: center;
+}
+
+.indexbook img {
+    width: 100%;
+    height: auto;
+    transition: transform 0.3s ease;
+}
+
+.indexbook:hover img {
+    transform: scale(1.05);
+}
+
+.indexbook .book-info {
+    margin-top: 10px;
+    width: 100%;
+}
+
+.indexbook .book-info .title {
+    font-size: 18px;
+    font-weight: bold;
+    margin: 5px 0;
+}
+
+.indexbook .book-info .author {
+    font-size: 14px;
+    color: #666;
+}
+

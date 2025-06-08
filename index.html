@@ -13,34 +13,40 @@
         }
 
         .indexbook {
-            text-align: center;
-            margin: 20px;
-            width: 200px;
-        }
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 250px;
+    margin: 20px;
+    text-align: center;
+}
 
-        .indexbook img {
-            width: 250px;
-            height: auto;
-            transition: transform 0.3s ease;
-        }
+.indexbook img {
+    width: 100%;
+    height: auto;
+    transition: transform 0.3s ease;
+}
 
-        .indexbook:hover img {
-            transform: scale(1.1); 
-        }
+.indexbook:hover img {
+    transform: scale(1.05);
+}
 
-        .indexbook .book-info .title {
-            width: 250px;
-            text-align: center;
-            font-size: 20px;
-            font-weight: bold;
-            margin-top: 30px;
-        }
+.indexbook .book-info {
+    margin-top: 10px;
+    width: 100%;
+}
 
-        .indexbook .book-info .author {
-            font-size: 16px;
-            width: 250px;
-            text-align: center;
-        }
+.indexbook .book-info .title {
+    font-size: 18px;
+    font-weight: bold;
+    margin: 5px 0;
+}
+
+.indexbook .book-info .author {
+    font-size: 14px;
+    color: #666;
+}
+
 
         .featurebooks {
             margin-left: 20px;
